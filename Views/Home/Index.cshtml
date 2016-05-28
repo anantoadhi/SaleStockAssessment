@@ -77,38 +77,3 @@
     }
 </script>
 }
-
-@*
-var table = '<table>thead><tr><th>Category</th><th>Name</th><th>Price</th></tr><thead><tbody>';
-
-        $.getJSON('/api/products?category='+id, function (categoriesJsonPayLoad) {
-            $(categoriesJsonPayLoad).each(function (i, item) {
-                $('#category').append('<option value=' + item.catId + '>' + item.Category + '</option>');
-            });
-        });
-
-products?category=pants
-var catId = 0;
-    var getUserUrl = function () {
-        return 'api/products/' + catId + '/';
-    }
-
-    var fillComboWithCategory = function (categories) {
-        var combo = $('.categories-combo')
-            .empty()
-            .append('<option value="prompt" selected="selected">Choose a Categories</option>');
-        $.each(Product, function (index, category) {
-            combo.append('<option value="' + category.Id + '">' + category.Name + '</option>');
-        });
-    };
-
-    var refreshCategories = function () {
-        $.ajax({
-            type: 'Get',
-            url: 'api/products',
-            datatype: 'json',
-            success:fillComboWithCategory
-        });
-    }
-
-    refreshCategories();*@
