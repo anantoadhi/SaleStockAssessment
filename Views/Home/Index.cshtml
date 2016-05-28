@@ -1,0 +1,114 @@
+﻿<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p class="site-title">
+                <a href="~/">Sale Stock Technical Assessment</a></p>
+        </div>
+    </div>
+</header>
+<div id="body">
+    
+    <select id='categories-combo' onchange='onUserSelected()'>
+       <option>-Get Categories-</option>
+    </select>
+    <div id="category">
+        <table id="tabCat">
+        </table>
+    </div>
+
+    <form id="saveProductForm" method="post">
+        <h2>Create new Product</h2>
+        <p>
+            <label for="Name">Brand Name :</label>
+            <input type="text" name="type"/>
+            <select id='selectCategory'>
+                <option>-Get Categories-</option>
+            </select>
+            <label for="Price">Price :</label>
+            <input type="text" name="type"/>
+        </p>
+        <input type="button" id="postProduct" value="Save" />
+    </form>
+
+</div>
+
+@section scripts{
+<script type="text/javascript">
+
+    $(function () {
+        $.getJSON('/api/products', function (categoriesJsonPayLoad) {
+            $(categoriesJsonPayLoad).each(function (i, item) {
+                $('#categories-combo').append('<option value=' + item.Category + '>' + item.Category + '</option>');
+            });
+            $(categoriesJsonPayLoad).each(function (i, item) {
+                $('#selectCategory').append('<option value=' + item.Category + '>' + item.Category + '</option>');
+            });
+        });
+    });
+
+    var makeTableFromCategory = function (accounts) {
+     };
+
+    var cat= 0;
+    var onUserSelected = function () {
+        var x = document.getElementById("categories-combo").value;
+        $('#tabCat').empty();
+        $.getJSON('/api/products?category='+x, function (categoriesJsonPayLoad) {
+            var table='<tr><th>Category</th><th>Name</th><th>Price</th></tr>'
+            $(categoriesJsonPayLoad).each(function (i, item) {
+                $('#tabCat').append(
+                     table += '<tr><td>' + item.Category + '</td>' +
+                             '<td>' + item.Name + '</td>' +
+                             '<td>' + item.Price + '</td>' +
+                             '<td><input type="button" value="Delete" onclick="deleteProduct(' + item.Id + ')" /></td></tr>');
+                });
+            
+            });
+    }
+
+    $('#saveCategory').click(function () {
+        $.post("api/produts",
+            $("#postProduct").serialize(),alert("Successfully Save"),"json"
+            );
+    });
+
+    var deleteProduct = function (prodId) {
+        alert(prodId);
+    }
+</script>
+}
+
+@*
+var table = '<table>thead><tr><th>Category</th><th>Name</th><th>Price</th></tr><thead><tbody>';
+
+        $.getJSON('/api/products?category='+id, function (categoriesJsonPayLoad) {
+            $(categoriesJsonPayLoad).each(function (i, item) {
+                $('#category').append('<option value=' + item.catId + '>' + item.Category + '</option>');
+            });
+        });
+
+products?category=pants
+var catId = 0;
+    var getUserUrl = function () {
+        return 'api/products/' + catId + '/';
+    }
+
+    var fillComboWithCategory = function (categories) {
+        var combo = $('.categories-combo')
+            .empty()
+            .append('<option value="prompt" selected="selected">Choose a Categories</option>');
+        $.each(Product, function (index, category) {
+            combo.append('<option value="' + category.Id + '">' + category.Name + '</option>');
+        });
+    };
+
+    var refreshCategories = function () {
+        $.ajax({
+            type: 'Get',
+            url: 'api/products',
+            datatype: 'json',
+            success:fillComboWithCategory
+        });
+    }
+
+    refreshCategories();*@
